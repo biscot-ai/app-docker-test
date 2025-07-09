@@ -83,6 +83,15 @@ app.get('/', (req, res) => {
 
 app.get('/api/test-db', async (req, res) => {
   try {
+    // Créer la table users si elle n'existe pas
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
     const result = await pool.query('SELECT NOW() as current_time, version() as version');
     res.json({
       success: true,
