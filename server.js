@@ -99,10 +99,18 @@ app.get('/api/test-db', async (req, res) => {
       message: 'Connexion à la base de données réussie'
     });
   } catch (error) {
+    console.error('Database error:', error);
+    console.error('DATABASE_URL exists:', !!process.env.DATABASE_URL);
+    console.error('DATABASE_URL preview:', process.env.DATABASE_URL ? process.env.DATABASE_URL.substring(0, 20) + '...' : 'undefined');
+    
     res.status(500).json({
       success: false,
       error: error.message,
-      message: 'Erreur de connexion à la base de données'
+      message: 'Erreur de connexion à la base de données',
+      debug: {
+        hasDbUrl: !!process.env.DATABASE_URL,
+        nodeEnv: process.env.NODE_ENV
+      }
     });
   }
 });
