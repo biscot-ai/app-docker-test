@@ -7,15 +7,20 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static('public'));
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-  host: process.env.DB_HOST || 'localhost',
-  database: process.env.DB_NAME || 'testdb',
-  user: process.env.DB_USER || 'testuser',
-  password: process.env.DB_PASSWORD || 'testpass',
-  port: process.env.DB_PORT || 5432,
-});
+const pool = new Pool(
+  process.env.DATABASE_URL
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
+      }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        database: process.env.DB_NAME || 'testdb',
+        user: process.env.DB_USER || 'testuser',
+        password: process.env.DB_PASSWORD || 'testpass',
+        port: process.env.DB_PORT || 5432,
+      }
+);
 
 app.get('/', (req, res) => {
   res.send(`
