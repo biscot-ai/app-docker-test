@@ -167,7 +167,15 @@ app.get('/health', (req, res) => {
   });
 });
 
+console.log('Starting server...');
+console.log('Port:', port);
+console.log('NODE_ENV:', process.env.NODE_ENV);
+console.log('DATABASE_URL exists:', !!process.env.DATABASE_URL);
+
 app.listen(port, '0.0.0.0', () => {
   console.log(`Serveur démarré sur http://0.0.0.0:${port}`);
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+}).on('error', (err) => {
+  console.error('Server startup error:', err);
+  process.exit(1);
 });
