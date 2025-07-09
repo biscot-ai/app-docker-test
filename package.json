@@ -4,7 +4,7 @@
   "description": "Application simple pour tester Docker",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node server-minimal.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {
